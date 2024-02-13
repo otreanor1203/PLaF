@@ -1,0 +1,95 @@
+(lang dune 3.14)
+(name parser_plaf)
+(version 0.01)
+(sections (lib .) (libexec .))
+(files
+ (lib
+  (META
+   ast.ml
+   dune-package
+   grammar.ml
+   grammar.mli
+   lexer.ml
+   opam
+   parser.ml
+   parserMessages.ml
+   parser_plaf.a
+   parser_plaf.cma
+   parser_plaf.cmi
+   parser_plaf.cmt
+   parser_plaf.cmx
+   parser_plaf.cmxa
+   parser_plaf.ml
+   parser_plaf__Ast.cmi
+   parser_plaf__Ast.cmt
+   parser_plaf__Ast.cmx
+   parser_plaf__Grammar.cmi
+   parser_plaf__Grammar.cmt
+   parser_plaf__Grammar.cmti
+   parser_plaf__Grammar.cmx
+   parser_plaf__Lexer.cmi
+   parser_plaf__Lexer.cmt
+   parser_plaf__Lexer.cmx
+   parser_plaf__Parser.cmi
+   parser_plaf__Parser.cmt
+   parser_plaf__Parser.cmx
+   parser_plaf__ParserMessages.cmi
+   parser_plaf__ParserMessages.cmt
+   parser_plaf__ParserMessages.cmx
+   parser_plaf__UnitActionsGrammar.cmi
+   parser_plaf__UnitActionsGrammar.cmt
+   parser_plaf__UnitActionsGrammar.cmti
+   parser_plaf__UnitActionsGrammar.cmx
+   unitActionsGrammar.ml
+   unitActionsGrammar.mli))
+ (libexec (parser_plaf.cmxs)))
+(library
+ (name parser_plaf)
+ (kind normal)
+ (archives (byte parser_plaf.cma) (native parser_plaf.cmxa))
+ (plugins (byte parser_plaf.cma) (native parser_plaf.cmxs))
+ (native_archives parser_plaf.a)
+ (requires menhirLib)
+ (main_module_name Parser_plaf)
+ (modes byte native)
+ (modules
+  (wrapped
+   (group
+    (alias
+     (obj_name parser_plaf)
+     (visibility public)
+     (kind alias)
+     (source (path Parser_plaf) (impl (path parser_plaf.ml-gen))))
+    (name Parser_plaf)
+    (modules
+     (module
+      (obj_name parser_plaf__Ast)
+      (visibility public)
+      (source (path Ast) (impl (path ast.ml))))
+     (module
+      (obj_name parser_plaf__Grammar)
+      (visibility public)
+      (source
+       (path Grammar)
+       (intf (path grammar.mli))
+       (impl (path grammar.ml))))
+     (module
+      (obj_name parser_plaf__Lexer)
+      (visibility public)
+      (source (path Lexer) (impl (path lexer.ml))))
+     (module
+      (obj_name parser_plaf__Parser)
+      (visibility public)
+      (source (path Parser) (impl (path parser.ml))))
+     (module
+      (obj_name parser_plaf__ParserMessages)
+      (visibility public)
+      (source (path ParserMessages) (impl (path parserMessages.ml))))
+     (module
+      (obj_name parser_plaf__UnitActionsGrammar)
+      (visibility public)
+      (source
+       (path UnitActionsGrammar)
+       (intf (path unitActionsGrammar.mli))
+       (impl (path unitActionsGrammar.ml))))))
+   (wrapped true))))

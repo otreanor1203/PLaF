@@ -1,0 +1,147 @@
+type token =
+    UNPAIR
+  | UNITTYPE
+  | UNIONSET
+  | TREETYPE
+  | TOPQ
+  | TOP
+  | TL
+  | TIMES
+  | THEN
+  | SUPER
+  | SUM
+  | SND
+  | SIZE
+  | SETTYPE
+  | SETREF
+  | SET
+  | SEND
+  | SEMICOLON
+  | SELF
+  | RRANGLE
+  | RPAREN
+  | REMOVEQ
+  | REMOVEHTBL
+  | REFTYPE
+  | RBRACE
+  | RANGLE
+  | QUEUETYPE
+  | PUSH
+  | PROD
+  | PROC
+  | POP
+  | PLUS
+  | PAIR
+  | OF
+  | NODE
+  | NEWREF
+  | NEW
+  | MKSET
+  | MKLIST
+  | MINUS
+  | MIN
+  | METHOD
+  | MAXL
+  | LPAREN
+  | LOOKUPHTBL
+  | LLANGLE
+  | LISTTYPE
+  | LETREC
+  | LET
+  | LBRACE
+  | LANGLE
+  | ISZERO
+  | ISSUBSET
+  | ISNUMBER
+  | ISMEMBER
+  | ISEMPTY
+  | INTTYPE
+  | INTERFACE
+  | INT of int
+  | INSTANCEOF
+  | INSERTSET
+  | INSERTHTBL
+  | IN
+  | IMPLEMENTS
+  | IF
+  | ID of string
+  | HTBLTYPE
+  | HD
+  | FST
+  | FIELD
+  | EXTENDS
+  | EQUALSMUTABLE
+  | EQUALS
+  | EOF
+  | END
+  | EMPTYTREE
+  | EMPTYSTACK
+  | EMPTYSET
+  | EMPTYQUEUE
+  | EMPTYLIST
+  | EMPTYHTBL
+  | ELSE
+  | DOT
+  | DIVIDED
+  | DEREF
+  | DEBUG
+  | CONS
+  | COMMA
+  | COLON
+  | CLASS
+  | CAST
+  | CASET
+  | BOOLTYPE
+  | BEGIN
+  | AVG
+  | ARROW
+  | ADDQ
+  | ABS
+val menhir_begin_marker : int
+val xv_type_annotation : Ast.texpr
+val xv_texpr : Ast.texpr
+val xv_separated_nonempty_list_SEMICOLON_fieldtype_ :
+  (string * Ast.texpr) list
+val xv_separated_nonempty_list_SEMICOLON_field_ :
+  (string * (bool * Ast.expr)) list
+val xv_separated_nonempty_list_SEMICOLON_expr_ : Ast.expr list
+val xv_separated_nonempty_list_COMMA_formal_par_ :
+  (string * Ast.texpr option) list
+val xv_separated_nonempty_list_COMMA_expr_ : Ast.expr list
+val xv_separated_nonempty_list_COMMA_ID_ : string list
+val xv_separated_list_SEMICOLON_fieldtype_ : (string * Ast.texpr) list
+val xv_separated_list_SEMICOLON_field_ : (string * (bool * Ast.expr)) list
+val xv_separated_list_SEMICOLON_expr_ : Ast.expr list
+val xv_separated_list_COMMA_formal_par_ : (string * Ast.texpr option) list
+val xv_separated_list_COMMA_expr_ : Ast.expr list
+val xv_separated_list_COMMA_ID_ : string list
+val xv_rdecs :
+  string * string * Ast.texpr option * Ast.texpr option * Ast.expr
+val xv_prog : Ast.prog
+val xv_option_type_annotation_ : Ast.texpr option
+val xv_option_texpr_ : Ast.texpr option
+val xv_option_implements_declaration_ : string option
+val xv_obj_fields : string * Ast.texpr option
+val xv_nonempty_list_rdecs_ : Ast.rdecs
+val xv_method_decl : Ast.mdecl
+val xv_loption_separated_nonempty_list_SEMICOLON_fieldtype__ :
+  (string * Ast.texpr) list
+val xv_loption_separated_nonempty_list_SEMICOLON_field__ :
+  (string * (bool * Ast.expr)) list
+val xv_loption_separated_nonempty_list_SEMICOLON_expr__ : Ast.expr list
+val xv_loption_separated_nonempty_list_COMMA_formal_par__ :
+  (string * Ast.texpr option) list
+val xv_loption_separated_nonempty_list_COMMA_expr__ : Ast.expr list
+val xv_loption_separated_nonempty_list_COMMA_ID__ : string list
+val xv_list_obj_fields_ : (string * Ast.texpr option) list
+val xv_list_method_decl_ : Ast.mdecl list
+val xv_list_iface_or_class_decl_ : Ast.cdecl list
+val xv_list_abstract_method_decl_ : Ast.abs_mdecl list
+val xv_implements_declaration : string
+val xv_iface_or_class_decl : Ast.cdecl
+val xv_formal_par : string * Ast.texpr option
+val xv_fieldtype : string * Ast.texpr
+val xv_field : string * (bool * Ast.expr)
+val xv_expr : Ast.expr
+val xv_abstract_method_decl : Ast.abs_mdecl
+val menhir_end_marker : int

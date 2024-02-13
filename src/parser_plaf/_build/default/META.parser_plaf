@@ -1,0 +1,7 @@
+version = "0.01"
+description = ""
+requires = "menhirLib"
+archive(byte) = "parser_plaf.cma"
+archive(native) = "parser_plaf.cmxa"
+plugin(byte) = "parser_plaf.cma"
+plugin(native) = "parser_plaf.cmxs"
