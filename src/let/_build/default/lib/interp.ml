@@ -66,6 +66,47 @@ let rec eval_expr : expr -> exp_val ea_result =
     string_of_env >>= fun str ->
     print_endline str; 
     error "Debug called"
+  | EmptyTree(_) -> 
+    return (TreeVal Empty)
+  | Node(e1,e2,e3) ->
+    eval_expr e1 >>= fun v ->
+    eval_expr e2 >>= fun ev2 ->
+    tree_of_treeVal ev2 >>= fun l ->
+    eval_expr e3 >>= fun ev3 ->
+    tree_of_treeVal ev3 >>= fun r ->
+    return (TreeVal(Node(v, l, r)))
+  | IsEmpty(e) ->
+    eval_expr e >>= fun ev ->
+    tree_of_treeVal ev >>= fun t ->
+    return (BoolVal(t = Empty))
+  | CaseT(e1, e2, id1, id2, id3, e3) ->
+    eval_expr e1 >>= fun case ->
+    eval_expr e2 >>= fun ret1 ->
+    eval_expr e3 >>= fun ret2 ->
+    apply_env id1 >>= fun v ->
+    apply_env id2 >>= fun ll ->
+    tree_of_treeVal ll >>= fun l ->
+    apply_env id3 >>= fun rr ->
+    tree_of_treeVal rr >>= fun r ->
+    match case with
+    | TreeVal Empty -> return ret1
+    | TreeVal (Node(v,ll,rr)) -> return ret2
+
+
+
+
+
+(*
+
+interp "
+caseT emptytree() of {
+  emptytree() -> emptytree(),
+  node(a,l,r) -> l
+}";;
+
+*)
+
+
   | _ -> failwith "Not implemented yet!"
 
 (** [eval_prog e] evaluates program [e] *)

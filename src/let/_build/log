@@ -1,4 +1,4 @@
-# dune utop
+# dune ut
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Shared cache location: /home/owen/.cache/dune/db
@@ -19,4 +19,62 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /home/owen/.opam/default/bin/ocamlc.opt -config > /tmp/dune_7116b1_output
+$ /home/owen/.opam/default/bin/ocamlc.opt -config > /tmp/dune_f0470e_output
+$ (cd _build/default && /home/owen/.opam/default/bin/ocamldep.opt -modules -impl lib/interp.ml) > _build/default/lib/.let.objs/let__Interp.impl.d
+$ (cd _build/default && /home/owen/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -bin-annot -I lib/.let.objs/byte -I /home/owen/.opam/default/lib/menhirLib -I /home/owen/.opam/default/lib/parser_plaf -no-alias-deps -opaque -open Let -o lib/.let.objs/byte/let__Interp.cmo -c -impl lib/interp.ml)
+> File "lib/interp.ml", lines 8-110, characters 2-40:
+>   8 | ..match e with
+>   9 |   | Int(n) ->
+>  10 |     return (NumVal n)
+>  11 |   | Var(id) ->
+>  12 |     apply_env id
+> ...
+> 107 | *)
+> 108 | 
+> 109 | 
+> 110 |   | _ -> failwith "Not implemented yet!"
+> Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+> Here is an example of a case that is not matched:
+> (Unit|Self|Abs _|Min (_, _)|Sum _|Prod _|Avg _|Maxl _|IsNumber _|
+> Proc (_, _, _)|App (_, _)|Letrec (_, _)|Set (_, _)|NewRef _|DeRef _|
+> SetRef (_, _)|BeginEnd _|Tuple _|Untuple (_, _, _)|Unpair (_, _, _, _)|
+> Record _|Proj (_, _)|SetField (_, _, _)|IsEqual (_, _)|IsGT (_, _)|
+> IsLT (_, _)|Send (_, _, _)|Super (_, _)|NewObject (_, _)|EmptyList _|
+> Cons (_, _)|Hd _|Tl _|List _|IsInstanceOf (_, _)|Cast (_, _)|SetExt _|
+> EmptySet _|InsertSet (_, _)|UnionSet (_, _)|IsSubset (_, _)|IsMember (_, _)|
+> Size _|EmptyStack _|PushStack (_, _)|PopStack _|TopStack _|EmptyQueue _|
+> AddQueue (_, _)|RemoveQueue _|TopQueue _|EmptyHtbl (_, _)|
+> InsertHtbl (_, _, _)|LookupHtbl (_, _)|RemoveHtbl (_, _))
+>
+> File "lib/interp.ml", line 86, characters 26-27:
+> 86 |     apply_env id1 >>= fun v ->
+>                                ^
+> Warning 27 [unused-var-strict]: unused variable v.
+>
+> File "lib/interp.ml", line 88, characters 31-32:
+> 88 |     tree_of_treeVal ll >>= fun l ->
+>                                     ^
+> Warning 27 [unused-var-strict]: unused variable l.
+>
+> File "lib/interp.ml", line 90, characters 31-32:
+> 90 |     tree_of_treeVal rr >>= fun r ->
+>                                     ^
+> Warning 27 [unused-var-strict]: unused variable r.
+>
+> File "lib/interp.ml", line 93, characters 20-21:
+> 93 |     | TreeVal (Node(v,ll,rr)) -> return ret2
+>                          ^
+> Warning 27 [unused-var-strict]: unused variable v.
+>
+> File "lib/interp.ml", line 93, characters 22-24:
+> 93 |     | TreeVal (Node(v,ll,rr)) -> return ret2
+>                            ^^
+> Warning 27 [unused-var-strict]: unused variable ll.
+>
+> File "lib/interp.ml", line 93, characters 25-27:
+> 93 |     | TreeVal (Node(v,ll,rr)) -> return ret2
+>                               ^^
+> Warning 27 [unused-var-strict]: unused variable rr.
+$ (cd _build/default && /home/owen/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -a -o lib/let.cma lib/.let.objs/byte/let.cmo lib/.let.objs/byte/let__Ds.cmo lib/.let.objs/byte/let__Interp.cmo)
+$ (cd _build/default && /home/owen/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -24 -g -bin-annot -I lib/.utop/.utop.eobjs/byte -I /home/owen/.opam/default/lib/bytes -I /home/owen/.opam/default/lib/findlib -I /home/owen/.opam/default/lib/lambda-term -I /home/owen/.opam/default/lib/logs -I /home/owen/.opam/default/lib/lwt -I /home/owen/.opam/default/lib/lwt/unix -I /home/owen/.opam/default/lib/lwt_react -I /home/owen/.opam/default/lib/menhirLib -I /home/owen/.opam/default/lib/mew -I /home/owen/.opam/default/lib/mew_vi -I /home/owen/.opam/default/lib/ocaml/compiler-libs -I /home/owen/.opam/default/lib/ocaml/threads -I /home/owen/.opam/default/lib/ocaml/unix -I /home/owen/.opam/default/lib/ocplib-endian -I /home/owen/.opam/default/lib/ocplib-endian/bigstring -I /home/owen/.opam/default/lib/parser_plaf -I /home/owen/.opam/default/lib/react -I /home/owen/.opam/default/lib/result -I /home/owen/.opam/default/lib/trie -I /home/owen/.opam/default/lib/uchar -I /home/owen/.opam/default/lib/utop -I /home/owen/.opam/default/lib/uucp -I /home/owen/.opam/default/lib/uuseg -I /home/owen/.opam/default/lib/uutf -I /home/owen/.opam/default/lib/xdg -I /home/owen/.opam/default/lib/zed -I lib/.let.objs/byte -no-alias-deps -o lib/.utop/.utop.eobjs/byte/dune__exe__Utop.cmo -c -impl lib/.utop/utop.ml-gen)
+$ (cd _build/default && /home/owen/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -24 -g -o lib/.utop/utop.bc /home/owen/.opam/default/lib/ocaml/compiler-libs/ocamlcommon.cma /home/owen/.opam/default/lib/ocaml/compiler-libs/ocamlbytecomp.cma /home/owen/.opam/default/lib/ocaml/compiler-libs/ocamltoplevel.cma /home/owen/.opam/default/lib/findlib/findlib.cma /home/owen/.opam/default/lib/findlib/findlib_top.cma /home/owen/.opam/default/lib/logs/logs.cma /home/owen/.opam/default/lib/lwt/lwt.cma /home/owen/.opam/default/lib/logs/logs_lwt.cma /home/owen/.opam/default/lib/ocplib-endian/ocplib_endian.cma /home/owen/.opam/default/lib/ocplib-endian/bigstring/ocplib_endian_bigstring.cma /home/owen/.opam/default/lib/ocaml/unix/unix.cma /home/owen/.opam/default/lib/ocaml/threads/threads.cma /home/owen/.opam/default/lib/lwt/unix/lwt_unix.cma -I /home/owen/.opam/default/lib/lwt/../stublibs /home/owen/.opam/default/lib/react/react.cma /home/owen/.opam/default/lib/lwt_react/lwt_react.cma /home/owen/.opam/default/lib/result/result.cma /home/owen/.opam/default/lib/uutf/uutf.cma /home/owen/.opam/default/lib/uucp/uucp.cma /home/owen/.opam/default/lib/uuseg/uuseg.cma /home/owen/.opam/default/lib/zed/zed.cma /home/owen/.opam/default/lib/trie/trie.cma /home/owen/.opam/default/lib/mew/mew.cma /home/owen/.opam/default/lib/mew_vi/mew_vi.cma /home/owen/.opam/default/lib/lambda-term/lambda_term.cma -I /home/owen/.opam/default/lib/lambda-term/../stublibs /home/owen/.opam/default/lib/xdg/xdg.cma -I /home/owen/.opam/default/lib/xdg/../stublibs /home/owen/.opam/default/lib/utop/uTop.cma /home/owen/.opam/default/lib/menhirLib/menhirLib.cma /home/owen/.opam/default/lib/parser_plaf/parser_plaf.cma lib/let.cma lib/.utop/.utop.eobjs/byte/dune__exe__Utop.cmo -linkall -warn-error -31)
