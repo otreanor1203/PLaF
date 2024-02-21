@@ -70,44 +70,94 @@ let rec eval_expr : expr -> exp_val ea_result =
     return (TreeVal Empty)
   | Node(e1,e2,e3) ->
     eval_expr e1 >>= fun v ->
-    eval_expr e2 >>= fun ev2 ->
-    tree_of_treeVal ev2 >>= fun l ->
-    eval_expr e3 >>= fun ev3 ->
-    tree_of_treeVal ev3 >>= fun r ->
-    return (TreeVal(Node(v, l, r)))
+    eval_expr e2 >>=
+    tree_of_treeVal >>= fun l ->
+    eval_expr e3 >>=
+    tree_of_treeVal >>= fun r ->
+    return (TreeVal(Node(v,l,r)))
   | IsEmpty(e) ->
-    eval_expr e >>= fun ev ->
-    tree_of_treeVal ev >>= fun t ->
+    eval_expr e >>=
+    tree_of_treeVal >>= fun t ->
     return (BoolVal(t = Empty))
   | CaseT(e1, e2, id1, id2, id3, e3) ->
     eval_expr e1 >>= fun case ->
-    eval_expr e2 >>= fun ret1 ->
-    eval_expr e3 >>= fun ret2 ->
-    apply_env id1 >>= fun v ->
-    apply_env id2 >>= fun ll ->
-    tree_of_treeVal ll >>= fun l ->
-    apply_env id3 >>= fun rr ->
-    tree_of_treeVal rr >>= fun r ->
-    match case with
-    | TreeVal Empty -> return ret1
-    | TreeVal (Node(v,ll,rr)) -> return ret2
+    (match case with
+    | TreeVal Empty -> eval_expr e2
+    | TreeVal (Node(v,l,r)) ->
+      extend_env id1 v >>+
+      extend_env id2 (TreeVal l) >>+
+      extend_env id3 (TreeVal r) >>+
+      eval_expr e3
+    | _ -> error "CaseT error")
+| Record(fd) ->
+  (match List.map (fun (s, (_, e)) -> (s, e)) fd with
+  | [] -> return (RecordVal([]))
+  | pairs -> if (has_duplicates (List.map fst pairs)) then error ("Record: duplicate fields") else
+  eval_exprs (List.map snd pairs) >>= fun exp_val_list ->
+  return (RecordVal(List.combine (List.map fst pairs) exp_val_list)))
+| Proj(e, id) ->
+  eval_expr e >>=
+  record_of_recordVal >>= fun ee ->
+  proj_helper ee id
+| _ -> failwith "Not implemented yet!"
 
-
-
-
-
+and
+  eval_exprs : expr list -> (exp_val list) ea_result = 
+  fun es ->
+  match es with
+  | [] -> return []
+  | h::t -> eval_expr h >>= fun i ->
+    eval_exprs t >>= fun l ->
+    return (i::l)
+    
 (*
-
 interp "
 caseT emptytree() of {
   emptytree() -> emptytree(),
   node(a,l,r) -> l
 }";;
 
+interp "
+let t = node(0,
+            node(521,
+                emptytree(),
+                node(0,
+                  emptytree(),
+                  emptytree()
+                )
+            ),
+            node(5-4,
+                node(104,
+                    emptytree(),
+                    emptytree()
+                ),
+                node(0,
+                    node(9,
+                        emptytree(),
+                        emptytree()
+                    ),
+                    emptytree()
+                )
+            )
+)
+
+in
+caseT t of {
+  emptytree() -> 10,
+  node(a,l,r) ->
+  if zero?(a)
+  then caseT l of {
+    emptytree() -> 21,
+    node(b,ll,rr) -> if zero?(b)
+                      then 4
+                      else 99
+  }
+  else 5
+}";;
+
+                  
+
 *)
-
-
-  | _ -> failwith "Not implemented yet!"
 
 (** [eval_prog e] evaluates program [e] *)
 let eval_prog (AProg(_,e)) =

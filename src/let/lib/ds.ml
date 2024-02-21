@@ -3,6 +3,7 @@
 (* expressed values and environments are defined mutually recursively *)
 
 type 'a tree = Empty | Node of 'a * 'a tree * 'a tree
+type 'a record = (string*'a) list
 
 type exp_val =
   | NumVal of int
@@ -11,6 +12,7 @@ type exp_val =
   | TupleVal of exp_val list
   | ListVal of exp_val list
   | TreeVal of exp_val tree
+  | RecordVal of exp_val record
 
 type env =
   | EmptyEnv
@@ -133,3 +135,17 @@ let tree_of_treeVal : exp_val -> (exp_val tree) ea_result =  function
   | TreeVal Empty -> return Empty
   | TreeVal (Node(v,l,r)) -> return (Node(v,l,r))
   | _ -> error "Expected a tree!"
+
+let rec has_duplicates l =
+  match l with
+  | [] -> false
+  | h::t -> (List.mem h t) || has_duplicates t
+
+let record_of_recordVal : exp_val -> (exp_val record) ea_result = function
+  | RecordVal s -> return s
+  | _ -> error "Expected a record"
+
+let rec proj_helper l s =
+  match l with
+  | [] -> error "Proj: field does not exist"
+  | h::t -> if (fst h) = s then return (snd h) else proj_helper t s
