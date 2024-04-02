@@ -152,6 +152,18 @@ let string_of_env : string ea_result =
   | EmptyEnv -> Ok ">>Environment:\nEmpty"
   | _ -> Ok (">>Environment:\n"^ string_of_env' [] env)
 
+let rec addIds fs evs =
+  match fs, evs with
+  | [], [] -> []
+  | (id, (mut, _))::t1, ev::t2 -> (id, (mut, ev))::(addIds t1 t2)
+  | _ -> failwith "Error: somehow the length of fs and evs was different in addIds"
 
+let rec proj_helper l s =
+  match l with
+  | [] -> error "Proj: field does not exist"
+  | h::t -> if (fst h) = s then return (snd (snd h)) else proj_helper t s
 
-
+let rec proj_helper2 l s =
+  match l with
+  | [] -> error "Proj: field does not exist"
+  | h::t -> if (fst h) = s then return h else proj_helper2 t s
