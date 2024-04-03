@@ -15,3 +15,6 @@ in begin
    end
 
    (*  interpf "ll_add_front";;  *)
+   (*  interpf "ll_add_last";;  *)
+   (*  interpf "ll_remove_first";;  *)
+   (*  interpf "ll_remove_last";;  *)

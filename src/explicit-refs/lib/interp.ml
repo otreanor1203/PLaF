@@ -128,7 +128,10 @@ let rec eval_expr : expr -> exp_val ea_result = fun e ->
   | Proj(e,id) ->
     eval_expr e >>=
     fields_of_recordVal >>= fun ee ->
-    proj_helper ee id
+    proj_helper2 ee id >>= fun h ->
+    (match h with
+    | (_, (false, _)) -> proj_helper ee id
+    | (_, (true, b)) -> int_of_refVal b >>= Store.deref g_store)
   | SetField(e1,id,e2) ->
     eval_expr e1 >>= fun r ->
     fields_of_recordVal r >>= fun x ->
