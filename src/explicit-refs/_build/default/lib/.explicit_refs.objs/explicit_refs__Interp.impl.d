@@ -1,1 +1,1 @@
-lib/interp.ml: Ds List Parser_plaf Store
+lib/interp.ml: Ds List Parser_plaf Store String

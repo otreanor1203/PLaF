@@ -1,3 +1,5 @@
+(* Owen Treanor *)
+
 open Ds
 open Parser_plaf.Ast
 open Parser_plaf.Parser
@@ -97,7 +99,62 @@ let rec eval_expr : expr -> exp_val ea_result = fun e ->
     let str_store = Store.string_of_store string_of_expval g_store 
     in (print_endline (str_env^"\n"^str_store);
     error "Reached breakpoint")
+  | IsNumber(e) ->
+    eval_expr e >>= fun n ->
+    (match n with
+    | NumVal (_) -> return @@ BoolVal true
+    | _ -> return @@ BoolVal false)
+  | IsEqual(e1,e2) ->
+    eval_expr e1 >>=
+    int_of_numVal >>= fun l ->
+    eval_expr e2 >>=
+    int_of_numVal >>= fun r ->
+    return @@ BoolVal(l=r)
+  | IsGT(e1,e2) ->
+    eval_expr e1 >>=
+    int_of_numVal >>= fun l ->
+    eval_expr e2 >>=
+    int_of_numVal >>= fun r ->
+    return @@ BoolVal(l>r)
+  | IsLT(e1,e2) ->
+    eval_expr e1 >>=
+    int_of_numVal >>= fun l ->
+    eval_expr e2 >>=
+    int_of_numVal >>= fun r ->
+    return @@ BoolVal(l<r)
+  | Record(fs) ->
+    sequence (List.map process_field fs) >>= fun evs ->
+    return ( RecordVal ( addIds fs evs ))
+  | Proj(e,id) ->
+    eval_expr e >>=
+    fields_of_recordVal >>= fun ee ->
+    proj_helper2 ee id >>= fun h ->
+    (match h with
+    | (_, (false, _)) -> proj_helper ee id
+    | (_, (true, b)) -> int_of_refVal b >>= Store.deref g_store)
+  | SetField(e1,id,e2) ->
+    eval_expr e1 >>= fun r ->
+    fields_of_recordVal r >>= fun x ->
+    eval_expr e2 >>= fun v ->
+    proj_helper2 x id >>= fun q ->
+    (match q with
+    | (_, (false, _)) -> error "Field not mutable"
+    | (_, (_, y)) -> 
+    int_of_refVal y >>= fun z ->
+    (Store.set_ref g_store z v) >>= fun _ ->
+      return UnitVal)
+
+
+(*interp "let p = { ssn = 10 ; age <= 30} in begin p.age <= 31; p end";;  ((int_of_refVal y) en)*)
+
   | _ -> failwith ("Not implemented: "^string_of_expr e)
+
+  and
+  process_field (_id,(is_mutable,e)) =
+    eval_expr e >>= fun ev ->
+    if is_mutable
+    then return ( RefVal ( Store.new_ref g_store ev ))
+    else return ev
 
 let eval_prog (AProg(_,e)) =
   eval_expr e         
@@ -107,5 +164,9 @@ let interp (s:string) : exp_val result =
   let c = s |> parse |> eval_prog
   in run c
 
-
+let interpf (s:string ) : exp_val result =
+  let s = String.trim s (* remove leading and trailing spaces *)
+  in let file_name = (* allow rec to be optional *)
+    match String.index_opt s '.' with None -> s ^ ".exr" | _ -> s
+  in interp @@ read_file file_name
 

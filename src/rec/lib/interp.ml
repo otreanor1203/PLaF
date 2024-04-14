@@ -92,3 +92,7 @@ let interp (s:string) : exp_val result =
   in run c
 
 
+(* interp "let z = 0
+in let p = proc ( x ) { debug(proc ( y ) { x * y })}
+in letrec f ( n ) = if zero?( n ) then 1 else (( p n ) ( f (n -1)))
+in ( f 10)";;*)

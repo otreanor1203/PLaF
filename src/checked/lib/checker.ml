@@ -52,6 +52,92 @@ let rec chk_expr : expr -> texpr tea_result = function
      else error
          "LetRec: Type of recursive function does not match
 declaration")
+ (* | Record([]) ->
+    error "record: empty record"
+  | Record(fs) ->
+    let (ids, bes) = List.split fs
+    in let (bs,es) = List.split bes
+    in if List.length (List.sort_uniq compare ids) = List.length ids
+    then chk_exprs es >>= fun tes ->
+      return (RecordType (List.combine ids tes))
+    else error "record: duplicate fields"
+  | Proj(e,id) ->
+    chk_expr e >>= fun te ->
+    (match te with
+    | RecordType tfs ->
+      (match List.assoc_opt id tfs with
+      | Some t -> return t
+      | None -> error "proj: field does not exist")
+    | _ -> error "proj: target not a record")
+*)
+  | NewRef(e) ->
+    chk_expr e >>= fun te ->
+    return (RefType te)
+  | DeRef(e) -> 
+    chk_expr e >>= fun te ->
+    (match te with
+    | (RefType q) -> return q
+    | _ -> error "deref: Expected a reference type")
+  | SetRef(e1, e2) ->
+    chk_expr e1 >>= fun te ->
+    chk_expr e2 >>= fun _ ->
+    (match te with
+    | (RefType _) -> return UnitType
+    | _ -> error "setref: Expected a reference type")
+  | BeginEnd([]) ->
+    return UnitType
+  | BeginEnd(es) ->
+    let r = List.rev es
+    in let h = List.hd r
+    in chk_expr h >>= fun te ->
+    return te
+  | EmptyList(t) ->
+    (match t with
+    | Some x -> return (ListType x)
+    | _ -> error "emptylist: not a valid type")
+  | Cons(e1, e2) ->
+    chk_expr e1 >>= fun t1 ->
+    chk_expr e2 >>= fun t2 ->
+    (match t2 with
+    | (ListType x) -> if (x=t1) then return (ListType t1) else error "cons: type of head and tail do not match"
+    | _ -> error "cons: invalid type")
+  | IsEmpty(e) ->
+    chk_expr e >>= fun te ->
+    (match te with
+    | (ListType _) -> return BoolType
+    | (TreeType _) -> return BoolType
+    | _ -> error "isempty: not a valid type")
+  | Hd(e) -> 
+    chk_expr e >>= fun te ->
+    (match te with
+    | (ListType x) -> return x
+    | _ -> error "hd: invalid argument")
+  | Tl(e) ->
+    chk_expr e >>= fun te ->
+    return te
+  | EmptyTree(t) ->
+    (match t with
+    | Some x -> return (TreeType x)
+    | _ -> error "emptytree: not a valid type")
+  | Node(de, le, re) ->
+    chk_expr de >>= fun v ->
+    chk_expr le >>= fun l ->
+    chk_expr re >>= fun r ->
+    (match l, r with
+    | (TreeType x), (TreeType y) -> if (x=y) && (x=v) then return (TreeType v) else error "node: types not matched"
+    | _ -> error "node: invalid argument")
+  | CaseT(target, emptycase, id1, id2, id3, nodecase) ->
+    chk_expr target >>= fun t ->
+    extend_tenv id1 t >>+
+    extend_tenv id2 t >>+
+    extend_tenv id3 t >>+
+    (match t with 
+    | (TreeType _) ->
+      chk_expr emptycase >>= fun ec ->
+      chk_expr nodecase >>= fun nc ->
+      if (ec!=nc) then return nc else error "caset: cases have different types"
+    | _ -> error "caset: target not a tree")
+
   | Debug(_e) ->
     string_of_tenv >>= fun str ->
     print_endline str;
@@ -60,6 +146,14 @@ declaration")
 and
   chk_prog (AProg(_,e)) =
   chk_expr e
+and
+  chk_exprs es =
+    match es with
+    | [] -> return []
+    | h::t ->
+      chk_expr h >>= fun th ->
+      chk_exprs t >>= fun l ->
+      return (th::l)
 
 (* Type-check an expression *)
 let chk (e:string) : texpr result =

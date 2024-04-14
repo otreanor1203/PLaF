@@ -1,0 +1,26 @@
+# dune ut
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Shared cache location: /home/owen/.cache/dune/db
+# Workspace root: /home/owen/PLaF/src/checked
+# Auto-detected concurrency: 16
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; installed_env =
+#      map
+#        { "INSIDE_DUNE" : "/home/owen/PLaF/src/checked/_build/default"
+#        ; "OCAML_COLOR" : "always"
+#        ; "OPAMCOLOR" : "always"
+#        }
+#  ; instrument_with = []
+#  }
+$ /home/owen/.opam/default/bin/ocamlc.opt -config > /tmp/dune_92e8bc_output
+$ (cd _build/default && /home/owen/.opam/default/bin/ocamldep.opt -modules -impl lib/checker.ml) > _build/default/lib/.checked.objs/checked__Checker.impl.d
+$ (cd _build/default && /home/owen/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -bin-annot -I lib/.checked.objs/byte -I /home/owen/.opam/default/lib/menhirLib -I /home/owen/.opam/default/lib/parser_plaf -no-alias-deps -opaque -open Checked -o lib/.checked.objs/byte/checked__Checker.cmo -c -impl lib/checker.ml)
+$ (cd _build/default && /home/owen/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -g -a -o lib/checked.cma lib/.checked.objs/byte/checked.cmo lib/.checked.objs/byte/checked__ReM.cmo lib/.checked.objs/byte/checked__Store.cmo lib/.checked.objs/byte/checked__Ds.cmo lib/.checked.objs/byte/checked__Interp.cmo lib/.checked.objs/byte/checked__Dst.cmo lib/.checked.objs/byte/checked__Checker.cmo)
+$ (cd _build/default && /home/owen/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -24 -g -o lib/.utop/utop.bc /home/owen/.opam/default/lib/ocaml/compiler-libs/ocamlcommon.cma /home/owen/.opam/default/lib/ocaml/compiler-libs/ocamlbytecomp.cma /home/owen/.opam/default/lib/ocaml/compiler-libs/ocamltoplevel.cma /home/owen/.opam/default/lib/findlib/findlib.cma /home/owen/.opam/default/lib/findlib/findlib_top.cma /home/owen/.opam/default/lib/logs/logs.cma /home/owen/.opam/default/lib/lwt/lwt.cma /home/owen/.opam/default/lib/logs/logs_lwt.cma /home/owen/.opam/default/lib/ocplib-endian/ocplib_endian.cma /home/owen/.opam/default/lib/ocplib-endian/bigstring/ocplib_endian_bigstring.cma /home/owen/.opam/default/lib/ocaml/unix/unix.cma /home/owen/.opam/default/lib/ocaml/threads/threads.cma /home/owen/.opam/default/lib/lwt/unix/lwt_unix.cma -I /home/owen/.opam/default/lib/lwt/../stublibs /home/owen/.opam/default/lib/react/react.cma /home/owen/.opam/default/lib/lwt_react/lwt_react.cma /home/owen/.opam/default/lib/result/result.cma /home/owen/.opam/default/lib/uutf/uutf.cma /home/owen/.opam/default/lib/uucp/uucp.cma /home/owen/.opam/default/lib/uuseg/uuseg.cma /home/owen/.opam/default/lib/zed/zed.cma /home/owen/.opam/default/lib/trie/trie.cma /home/owen/.opam/default/lib/mew/mew.cma /home/owen/.opam/default/lib/mew_vi/mew_vi.cma /home/owen/.opam/default/lib/lambda-term/lambda_term.cma -I /home/owen/.opam/default/lib/lambda-term/../stublibs /home/owen/.opam/default/lib/xdg/xdg.cma -I /home/owen/.opam/default/lib/xdg/../stublibs /home/owen/.opam/default/lib/utop/uTop.cma /home/owen/.opam/default/lib/menhirLib/menhirLib.cma /home/owen/.opam/default/lib/parser_plaf/parser_plaf.cma lib/checked.cma lib/.utop/.utop.eobjs/byte/dune__exe__Utop.cmo -linkall -warn-error -31)
