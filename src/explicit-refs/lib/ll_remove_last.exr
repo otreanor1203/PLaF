@@ -1,0 +1,27 @@
+
+(* Example 1 *)
+
+let l1 = { head <= 0; length <= 0} (* 0 in head signals null *)
+in let add_front = proc (x) { proc (l) {
+   	      begin
+	         l.head <={ data <=x; next <= l.head };
+		 l.length <= l.length+1
+              end
+	      } }
+in letrec remove_last_helper(nd) =
+                 if number?(nd.next.next)
+		 then nd.next <= 0
+	         else (remove_last_helper nd.next)
+in let remove_last = proc (l) {
+  begin
+  (remove_last_helper l.head);
+  l.length <= l.length-1
+  end
+  }
+in begin
+     ((add_front 2) l1);
+     ((add_front 3) l1);
+     ((add_front 4) l1);
+     (remove_last l1);
+     debug(l1)  (* required inspect the list *)
+   end
